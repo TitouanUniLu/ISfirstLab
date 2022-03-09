@@ -1,20 +1,24 @@
 from random import randint
+import sys
 
 def Main():
     answer = ''
     while answer != "goodbye":
         answer = str(input())
         answered = False
+        if answer == "goodbye":
+            print("Okay, bye then! ")
+            sys.exit()
         for elem in all_default:
             if elem in answer:
                 first = answer[:(len(elem))]
                 rest = answer[len(elem):]
-                rand = randint(0,1)
+                rand = randint(0,len(possible_answer[first])-1)
                 print(possible_answer[first][rand], rest)
                 answered = True
                 break
         if not answered:
-            print('Tell me more...')
+            print(default_answers[randint(0,len(default_answers)-1)])
 
                 
 
