@@ -4,10 +4,19 @@ def Main():
     answer = ''
     while answer != "goodbye":
         answer = str(input())
-        if answer in possible_answer:
-            rand = randint(0,1)
-            print(possible_answer[answer][rand])
-            print(possible_answer.keys())
+        answered = False
+        for elem in all_default:
+            if elem in answer:
+                first = answer[:(len(elem))]
+                rest = answer[len(elem):]
+                rand = randint(0,1)
+                print(possible_answer[first][rand], rest)
+                answered = True
+                break
+        if not answered:
+            print('Tell me more...')
+
+                
 
 #i feel happy
 
@@ -17,8 +26,14 @@ happy_emotions = ["good", "fine", "alright"]
 default_answers = ["Tell me more...", "Are you sure about that? ", "What makes you feel that way"]
 
 possible_answer = {
-    'i feel': ['why do you feel', "it's strange that you feel"]
+    'i feel': ['why do you feel', "it's strange that you feel"],
+    'i think': ['why do you think', "it's strange that you think"],
+    'i have': ['since when do you have', 'do you really have']
 }
+
+def get_List(dict):
+    return dict.keys()
+all_default = get_List(possible_answer)
 
 
 if __name__ == '__main__':
