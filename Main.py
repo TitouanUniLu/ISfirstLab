@@ -39,6 +39,11 @@ def reflect(answer, dict):
 
 questions = {
     "i want": "why do you want ",
+    "i feel": "why makes you feel",
+    "i think": "what makes you think",
+    "i believe in": "interesting belief, why do you believe",
+    "i need": "would it really help you to get",
+    "i can't": "what do you think is the reason you can't"
 }
 
 reflections = {
