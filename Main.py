@@ -9,17 +9,40 @@ def Main():
             print("Okay, bye then! ")
             sys.exit()
 
-        if inQuestions(answer, questions):
+        elif inGreetings(answer, greetings):
+            for elem in greetings.keys():
+                if elem in answer:
+                    print(greetings.get(elem))
+
+        elif inQuestions(answer, questions):
             print(base_questions(answer, questions))
-        else:
+
+        elif inReflections(answer, reflections):
             print(reflect(answer, reflections))
+
+        else:
+            print(default_answers[randint(0,len(default_answers)-1)])
+            
+            
         
 
+def inGreetings(answer, greetings):
+    for elem in greetings.keys():
+        if elem in answer:
+            return True
 
 def inQuestions(answer, questions):
     for elem in questions.keys():
         if elem in answer:
             return True
+
+def inReflections(answer, reflections):
+    words = answer.lower().split()
+    keys = reflections.keys()
+    for i in range(0, len(words)):
+        for elem in keys:                
+            if words[i] == elem:
+                return True
 
 def base_questions(answer, questions):
     for elem in questions.keys():
@@ -32,10 +55,16 @@ def reflect(answer, dict):
         words = answer.lower().split()
         keys = dict.keys()
         for i in range(0, len(words)):
-            if words[i] in keys:
-                words[i] = dict[words[i]]
+            for elem in keys:
+                if words[i] == elem:
+                    words[i] = dict[words[i]]
         return ' '.join(words)
 
+greetings = {
+    "hello": "hello how are you? ",
+    "my name is": "hi, my name is eliza, how are you? ",
+    "hi": "hello there, what is your name?"
+}
 
 questions = {
     "i want": "why do you want ",
@@ -64,6 +93,9 @@ reflections = {
   "you": "me",
   "me": "you"
 }
+
+default_answers = ["i have no idea what you're talking about...", "maybe try saying something simpler?", 
+                    "sorry i don't understand, try saying something else", "i'm not smart enough to answer that sorry"]
 
 if __name__ == '__main__':
     print("Hello, i'm Eliza, how are you doing today? ")
