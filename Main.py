@@ -15,7 +15,7 @@ def Main():
             print("Okay, bye then! ")
             sys.exit()
 
-        elif inGorQ(answer, greetings):
+        elif inGorQ(toString(answer), greetings):
             for elem in greetings.keys():
                 if elem in answer:
                     print(greetings.get(elem))
@@ -28,7 +28,13 @@ def Main():
             continue
 
         elif inReflections(answer, reflections):
-            print(reflect(answer, reflections))
+            if not inGorQ(answer, commonAnswers):
+               print(reflect(answer, reflections, True))
+            else:
+                for elem in commonAnswers.keys():
+                    if elem in answer:
+                        print(commonAnswers.get(elem))
+                        break
 
         else:
             print(default_answers[randint(0,len(default_answers)-1)])
@@ -39,8 +45,12 @@ def inGorQ(answer, dictionary):
         if elem in answer:
             return True
 
-def inReflections(answer, reflections):
+def toString(answer):
     words = answer.lower().split()
+    return words
+
+def inReflections(answer, reflections):
+    words = toString(answer)
     keys = reflections.keys()
     for i in range(0, len(words)):
         for elem in keys:                
@@ -50,11 +60,12 @@ def inReflections(answer, reflections):
 def base_questions(answer, questions):
     for elem in questions.keys():
         if elem in answer:
-            rest = answer.replace(elem, "")
-            return (questions.get(elem) + rest).replace("  ", " ")
+            rest = answer.replace(elem, " ")
+            rest = reflect(rest, reflections, False) #added this so when the user says "i think i am sad", instead of asnwering why do you think i am sad?" it says "why do you think you are sad"
+            return (questions.get(elem) + " " + rest + "?").replace("  ", " ")
 
 
-def reflect(answer, dict):  
+def reflect(answer, dict, reflectWithQuestion):
         words = answer.lower().split()
         keys = dict.keys()
         for i in range(0, len(words)):
@@ -64,8 +75,10 @@ def reflect(answer, dict):
                     break
             if words[i] == elem: #added another if statement to avoid going through the whole dictionary when a match is found
                     break
-
-        return ' '.join(words) + '. Is that a good thing?'
+        if reflectWithQuestion:
+           return ' '.join(words) + '. Do yo think that is a good thing or not?'
+        else:
+            return ' '.join(words)
 
 def checkEmotions(answer, emotions):
     for elem in emotions:
@@ -80,7 +93,8 @@ def checkEmotions(answer, emotions):
 greetings = {
     "hello": "hello how are you? ",
     "my name is": "hi, my name is eliza, how are you? ",
-    "hi": "hello there, how are you feeling?"
+    "hi": "hello there, how are you feeling?",
+    "hey": "hello there, how do you do?"
 }
 
 emotions = ['great', 'awesome', 'good', 'bad', 'fine', 'amazed', 'happy', 'aggravated', 'anxious', 'attractive', 'awful', 'awestruck', 'bold', 'chilly', 'bashful', 'brave', 'dejected', 
@@ -107,7 +121,17 @@ questions = {
     "i think": "what makes you think",
     "i believe in": "interesting belief, why do you believe",
     "i need": "would it really help you to get",
-    "i can't": "what do you think is the reason you can't"
+    "i can't": "what do you think is the reason you can't",
+    "are you": "Why do you care if i am",
+}
+
+commonAnswers = {
+    "no": "Why not?",
+    "sorry" : "No need for apologies.",
+    "maybe": "You dont seem certain about that.",
+    "perhaps": "Why the uncertain tone?",
+    "name": "I dont care for names",
+    "i was": "Oh interesting. Were you really?"
 }
 
 reflections = {
